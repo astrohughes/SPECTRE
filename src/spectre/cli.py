@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """SPECTRE command-line interface.
 
 Usage::
@@ -6,11 +7,7 @@ Usage::
     spectre scan --file data/starlink_tles.txt
     spectre constellation --name starlink --days 30
     spectre report --file data/detections.csv
-
-Author:
-    Kyle Hughes (@huqhesy) — kyle.evan.hughes@gmail.com
 """
-
 from __future__ import annotations
 
 import sys

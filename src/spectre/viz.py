@@ -1,13 +1,11 @@
+#!/usr/bin/env python3
 """Visualization tools for SPECTRE maneuver detection results.
+TODO: Make this WAY better
 
 Generates publication-quality plots of orbital element evolution with
 detected maneuvers highlighted. Supports both interactive analysis
 (Jupyter) and batch report generation (saved PNGs).
-
-Author:
-    Kyle Hughes (@huqhesy) — kyle.evan.hughes@gmail.com
 """
-
 from __future__ import annotations
 
 from datetime import datetime
@@ -51,8 +49,7 @@ def plot_element_history(
     save_path: Optional[str | Path] = None,
     figsize: tuple = (14, 10),
 ) -> plt.Figure:
-    """
-    Plot orbital element evolution with detected maneuvers.
+    """Plot orbital element evolution with detected maneuvers.
 
     Args:
         element_df: DataFrame from build_element_history()
@@ -67,23 +64,23 @@ def plot_element_history(
 
     epochs = element_df["epoch"]
 
-    # ── Panel 1: Altitude ──
+    # Panel 1: Altitude
     ax = axes[0]
     ax.plot(epochs, element_df["altitude_km"], linewidth=0.8, color="#2c3e50")
     ax.set_ylabel("Altitude (km)")
     ax.set_title(title or f"NORAD {element_df['norad_id'].iloc[0]} — Orbital Element History")
 
-    # ── Panel 2: Inclination ──
+    # Panel 2: Inclination
     ax = axes[1]
     ax.plot(epochs, element_df["inclination_deg"], linewidth=0.8, color="#8e44ad")
     ax.set_ylabel("Inclination (°)")
 
-    # ── Panel 3: RAAN ──
+    # Panel 3: RAAN
     ax = axes[2]
     ax.plot(epochs, element_df["raan_deg"], linewidth=0.8, color="#2980b9")
     ax.set_ylabel("RAAN (°)")
 
-    # ── Panel 4: Eccentricity ──
+    # Panel 4: Eccentricity
     ax = axes[3]
     ax.plot(epochs, element_df["eccentricity"], linewidth=0.8, color="#e67e22")
     ax.set_ylabel("Eccentricity")
@@ -132,8 +129,7 @@ def plot_maneuver_timeline(
     save_path: Optional[str | Path] = None,
     figsize: tuple = (14, 6),
 ) -> plt.Figure:
-    """
-    Plot a timeline of detected maneuvers, color-coded by type.
+    """Plot a timeline of detected maneuvers, color-coded by type.
 
     Y-axis: altitude change (km). Marker size: estimated delta-v.
     """
@@ -185,8 +181,7 @@ def plot_constellation_activity(
     save_path: Optional[str | Path] = None,
     figsize: tuple = (14, 5),
 ) -> plt.Figure:
-    """
-    Histogram of maneuver activity over time (maneuvers per week).
+    """Histogram of maneuver activity over time (maneuvers per week).
     """
     if maneuver_df.empty:
         fig, ax = plt.subplots(figsize=figsize)
@@ -196,7 +191,7 @@ def plot_constellation_activity(
 
     fig, axes = plt.subplots(2, 1, figsize=figsize, gridspec_kw={"height_ratios": [3, 1]})
 
-    # ── Top: maneuver count per time bin ──
+    # Top: maneuver count per time bin
     ax = axes[0]
     epochs = pd.to_datetime(maneuver_df["epoch_after"])
     start = epochs.min()
@@ -232,7 +227,7 @@ def plot_constellation_activity(
     ax.set_title(title)
     ax.legend(loc="upper right", fontsize=7, ncols=3)
 
-    # ── Bottom: cumulative delta-v ──
+    # Bottom: cumulative delta-v
     ax = axes[1]
     sorted_df = maneuver_df.sort_values("epoch_after")
     cum_dv = sorted_df["estimated_dv_ms"].cumsum()
@@ -266,8 +261,7 @@ def plot_altitude_vs_time_multi(
     save_path: Optional[str | Path] = None,
     figsize: tuple = (14, 6),
 ) -> plt.Figure:
-    """
-    Plot altitude over time for multiple satellites overlaid.
+    """Plot altitude over time for multiple satellites overlaid.
     Useful for seeing constellation-wide patterns (e.g., orbit raising campaigns).
     """
     fig, ax = plt.subplots(figsize=figsize)
@@ -299,8 +293,7 @@ def generate_report(
     output_dir: str | Path = "data/reports",
     constellation_name: str = "Unknown",
 ) -> Path:
-    """
-    Generate a complete analysis report with all plots saved as PNGs.
+    """Generate a complete analysis report with all plots saved as PNGs.
 
     Returns the output directory path.
     """

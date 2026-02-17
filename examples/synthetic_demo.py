@@ -1,11 +1,11 @@
+#!/usr/bin/env python3
 """
-Example: Maneuver detection on synthetic TLE data.
+SPECTRE Example: Maneuver detection on synthetic TLE data.
 
 This example doesn't require Space-Track credentials — it generates
 synthetic TLEs with known maneuvers and runs detection on them.
 Useful for understanding how the detector works and tuning thresholds.
 """
-
 import sys
 sys.path.insert(0, "src")
 

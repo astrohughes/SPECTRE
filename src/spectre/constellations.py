@@ -1,15 +1,14 @@
-"""Known spacecraft constellation metadata and NORAD ID presets.
+#!/usr/bin/env python3
+"""
+Known spacecraft constellation metadata and NORAD ID presets.
+TODO: Update, make configurable - FastAPI or OpenAPI spec
+with periodic Space-Track queries to keep current, TBD.
 
 Provides pre-configured detection thresholds and example NORAD catalog
 numbers for major LEO constellations. Periodically updated; for the
 latest catalog, query Space-Track directly.
-
-Author:
-    Kyle Hughes (@huqhesy) — kyle.evan.hughes@gmail.com
 """
-
 from __future__ import annotations
-
 from dataclasses import dataclass
 from typing import Optional
 
@@ -18,7 +17,20 @@ from .detector import DetectionThresholds
 
 @dataclass
 class ConstellationInfo:
-    """Metadata for a known spacecraft constellation."""
+    """Metadata for a known spacecraft constellation.
+
+    Attributes:
+        name: Human-readable name of the constellation.
+        operator: Organization responsible for the constellation.
+        altitude_km: Approximate orbital altitude in kilometers.
+        inclination_deg: Approximate orbital inclination in degrees.
+        num_planes: Number of orbital planes in the constellation.
+        sats_per_plane: Number of satellites per plane.
+        description: Brief description of the constellation and its purpose.
+        thresholds: DetectionThresholds object with tuned parameters for this constellation.
+        example_norad_ids: A few example NORAD catalog IDs for quick testing.
+        spacetrack_name_pattern: Pattern to match Space-Track names for this constellation.
+    """
     name: str
     operator: str
     altitude_km: float
@@ -31,8 +43,7 @@ class ConstellationInfo:
     spacetrack_name_pattern: str  # Pattern for Space-Track name search
 
 
-# ── Known constellations ──
-
+# Known constellations
 STARLINK = ConstellationInfo(
     name="Starlink",
     operator="SpaceX",
@@ -90,7 +101,7 @@ PLANET_FLOCK = ConstellationInfo(
     sats_per_plane=120,
     description="Planet Labs Dove imaging constellation in sun-synchronous orbit.",
     thresholds=DetectionThresholds(
-        sma_jump_km=0.2,        # High-drag, frequent natural decay
+        sma_jump_km=0.2, # High-drag, frequent natural decay
         sma_maintenance_km=0.05,
         inclination_jump_deg=0.005,
     ),
@@ -110,10 +121,12 @@ CONSTELLATIONS: dict[str, ConstellationInfo] = {
 
 
 def get_constellation(name: str) -> Optional[ConstellationInfo]:
-    """Look up a constellation by name (case-insensitive)."""
+    """Look up a constellation by name (case-insensitive).
+    """
     return CONSTELLATIONS.get(name.lower())
 
 
 def list_constellations() -> list[str]:
-    """List available constellation presets."""
+    """List available constellation presets.
+    """
     return list(CONSTELLATIONS.keys())

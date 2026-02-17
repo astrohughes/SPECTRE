@@ -4,7 +4,7 @@ Detect orbital maneuvers from publicly available Two-Line Element (TLE) data.
 Built for OSINT analysis of spacecraft constellation operations.
 
 Author:
-    Kyle Hughes (@huqhesy) — kyle.evan.hughes@gmail.com
+    Kyle Hughes (@astrohughes) — kyle.evan.hughes@gmail.com
 
 Modules:
     tle_parser:     Parse and extract orbital elements from TLE sets.

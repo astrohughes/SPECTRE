@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """Space-Track.org API client for fetching TLE history.
 
 Provides authenticated access to Space-Track's REST API for downloading
@@ -12,9 +13,6 @@ Set credentials via environment variables::
     export SPACETRACK_PASS="your_password"
 
 Or pass them directly to the ``SpaceTrackClient`` constructor.
-
-Author:
-    Kyle Hughes (@huqhesy) — kyle.evan.hughes@gmail.com
 """
 
 from __future__ import annotations
@@ -23,11 +21,10 @@ import os
 import json
 import time
 import logging
+import requests
 from pathlib import Path
 from datetime import datetime, timedelta
 from typing import Optional
-
-import requests
 
 from .tle_parser import TLE
 
@@ -42,8 +39,8 @@ RATE_LIMIT_DELAY = 2.5  # seconds between requests
 
 
 class SpaceTrackClient:
-    """Client for the Space-Track.org REST API."""
-
+    """Client for the Space-Track.org REST API.
+    """
     def __init__(
         self,
         username: Optional[str] = None,
@@ -59,7 +56,8 @@ class SpaceTrackClient:
         self._last_request_time = 0.0
 
     def _authenticate(self):
-        """Login to Space-Track."""
+        """Login to Space-Track.
+        """
         if self._authenticated:
             return
 
@@ -83,14 +81,16 @@ class SpaceTrackClient:
         logger.info("Authenticated with Space-Track")
 
     def _rate_limit(self):
-        """Respect Space-Track rate limits."""
+        """Respect Space-Track rate limits.
+        """
         elapsed = time.time() - self._last_request_time
         if elapsed < RATE_LIMIT_DELAY:
             time.sleep(RATE_LIMIT_DELAY - elapsed)
         self._last_request_time = time.time()
 
     def _query(self, endpoint: str, use_cache: bool = True) -> str:
-        """Execute a Space-Track query, with optional disk caching."""
+        """Execute a Space-Track query, with optional disk caching.
+        """
         # Check cache
         cache_key = endpoint.replace("/", "_").replace(" ", "_")[:200]
         cache_file = self.cache_dir / f"{cache_key}.json"
@@ -123,8 +123,7 @@ class SpaceTrackClient:
         end_date: Optional[datetime] = None,
         limit: int = 5000,
     ) -> list[TLE]:
-        """
-        Fetch TLE history for a single satellite.
+        """Fetch TLE history for a single satellite.
 
         Args:
             norad_id: NORAD catalog number
@@ -164,8 +163,7 @@ class SpaceTrackClient:
         end_date: Optional[datetime] = None,
         limit_per_sat: int = 2000,
     ) -> dict[int, list[TLE]]:
-        """
-        Fetch TLE history for multiple satellites.
+        """Fetch TLE history for multiple satellites.
 
         Args:
             norad_ids: List of NORAD catalog numbers
@@ -192,8 +190,7 @@ class SpaceTrackClient:
         return results
 
     def search_by_name(self, name_pattern: str, limit: int = 100) -> list[dict]:
-        """
-        Search for satellites by name pattern.
+        """Search for satellites by name pattern.
 
         Returns basic catalog info (NORAD ID, name, launch date, etc.)
         """
@@ -206,7 +203,8 @@ class SpaceTrackClient:
         return json.loads(raw)
 
     def get_latest_tle(self, norad_id: int) -> Optional[TLE]:
-        """Fetch the most recent TLE for a satellite."""
+        """Fetch the most recent TLE for a satellite.
+        """
         endpoint = (
             f"class/gp/NORAD_CAT_ID/{norad_id}/"
             f"orderby/EPOCH desc/limit/1/format/tle"

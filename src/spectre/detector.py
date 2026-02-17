@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """Core maneuver detection engine.
 
 Detects orbital maneuvers by analyzing discontinuities in TLE-derived
@@ -14,34 +15,28 @@ Detection channels:
 
 Each channel produces a suspicion score in [0, 1]. Scores are fused via
 configurable weights to produce a final maneuver probability.
-
-Author:
-    Kyle Hughes (@huqhesy) — kyle.evan.hughes@gmail.com
 """
-
 from __future__ import annotations
 
 import logging
 import math
+import numpy as np
+import pandas as pd
+
 from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum, auto
 from typing import Optional
-
-import numpy as np
-import pandas as pd
 
 from .tle_parser import TLE
 
 logger = logging.getLogger(__name__)
 
 
-# ── Enumerations ──
-
-
+# Enumerations
 class ManeuverType(Enum):
-    """Classified maneuver types inferred from element discontinuities."""
-
+    """Classified maneuver types inferred from element discontinuities.
+    """
     ALTITUDE_RAISE = auto()
     ALTITUDE_LOWER = auto()
     ALTITUDE_MAINTENANCE = auto()
@@ -52,15 +47,15 @@ class ManeuverType(Enum):
     UNKNOWN = auto()
 
 
-# ── Configuration ──
-
-
+# Configuration
 @dataclass
 class DetectionThresholds:
     """Configurable thresholds for maneuver detection.
 
     Default values are tuned for LEO constellations (Starlink, OneWeb,
     Iridium). Adjust for different orbit regimes or spacecraft types.
+
+    TODO: Make WAY more configurable.
 
     Attributes:
         sma_jump_km: SMA discontinuity trigger (km).
@@ -80,7 +75,6 @@ class DetectionThresholds:
         weight_bstar: Fusion weight for B* channel.
         maneuver_score_threshold: Minimum fused score to declare a maneuver.
     """
-
     sma_jump_km: float = 0.1
     sma_maintenance_km: float = 0.03
     inclination_jump_deg: float = 0.003
@@ -100,7 +94,8 @@ class DetectionThresholds:
 
     @classmethod
     def for_starlink(cls) -> DetectionThresholds:
-        """Thresholds tuned for Starlink (~550 km, high drag)."""
+        """Thresholds tuned for Starlink (~550 km, high drag).
+        """
         return cls(
             sma_jump_km=0.15,
             sma_maintenance_km=0.04,
@@ -110,7 +105,8 @@ class DetectionThresholds:
 
     @classmethod
     def for_oneweb(cls) -> DetectionThresholds:
-        """Thresholds tuned for OneWeb (~1200 km, low drag)."""
+        """Thresholds tuned for OneWeb (~1200 km, low drag).
+        """
         return cls(
             sma_jump_km=0.08,
             sma_maintenance_km=0.02,
@@ -120,7 +116,8 @@ class DetectionThresholds:
 
     @classmethod
     def for_iridium(cls) -> DetectionThresholds:
-        """Thresholds tuned for Iridium NEXT (~780 km)."""
+        """Thresholds tuned for Iridium NEXT (~780 km).
+        """
         return cls(
             sma_jump_km=0.10,
             sma_maintenance_km=0.03,
@@ -129,9 +126,7 @@ class DetectionThresholds:
         )
 
 
-# ── Maneuver event ──
-
-
+# Maneuver event
 @dataclass
 class ManeuverEvent:
     """A detected maneuver event with full context.
@@ -166,7 +161,6 @@ class ManeuverEvent:
         inclination_before_deg: Pre-maneuver inclination (degrees).
         inclination_after_deg: Post-maneuver inclination (degrees).
     """
-
     norad_id: int
     spacecraft_name: Optional[str]
     epoch_before: datetime
@@ -230,9 +224,7 @@ class ManeuverEvent:
         )
 
 
-# ── Detection engine ──
-
-
+# Detection engine
 class ManeuverDetector:
     """Core maneuver detection engine.
 
@@ -250,7 +242,6 @@ class ManeuverDetector:
         >>> for event in events:
         ...     print(event.summary())
     """
-
     def __init__(self, thresholds: Optional[DetectionThresholds] = None) -> None:
         self.thresholds = thresholds or DetectionThresholds()
 
@@ -305,23 +296,23 @@ class ManeuverDetector:
         t = self.thresholds
         gap_days = gap_hours / 24.0
 
-        # ── SMA jump ──
+        # SMA jump
         delta_sma = curr.semi_major_axis - prev.semi_major_axis
         expected_sma = self._expected_sma_drift(prev, gap_days)
         sma_residual = abs(delta_sma - expected_sma)
         score_sma = min(1.0, sma_residual / t.sma_jump_km)
 
-        # ── Mean motion ──
+        # Mean motion
         delta_mm = abs(curr.mean_motion - prev.mean_motion)
         expected_mm = abs(prev.mean_motion_dot * 2.0 * gap_days)
         mm_residual = abs(delta_mm - expected_mm)
         score_mm = min(1.0, mm_residual / t.mean_motion_jump)
 
-        # ── Inclination (no J2 secular drift) ──
+        # Inclination (no J2 secular drift)
         delta_inc = abs(curr.inclination - prev.inclination)
         score_inc = min(1.0, delta_inc / t.inclination_jump_deg)
 
-        # ── RAAN (after removing J2 secular drift) ──
+        # RAAN (after removing J2 secular drift)
         delta_raan = _angle_diff(curr.raan, prev.raan)
         expected_raan = prev.raan_rate * gap_days
         raan_residual = abs(delta_raan - expected_raan)
@@ -329,11 +320,11 @@ class ManeuverDetector:
             raan_residual = 360 - raan_residual
         score_raan = min(1.0, raan_residual / t.raan_residual_deg)
 
-        # ── Eccentricity ──
+        # Eccentricity
         delta_ecc = abs(curr.eccentricity - prev.eccentricity)
         score_ecc = min(1.0, delta_ecc / t.eccentricity_jump)
 
-        # ── B* anomaly ──
+        # B* anomaly
         if abs(prev.bstar) > 1e-10:
             bstar_change = abs(curr.bstar - prev.bstar) / abs(prev.bstar)
         else:
@@ -350,7 +341,8 @@ class ManeuverDetector:
         }
 
     def _fuse_scores(self, scores: dict[str, float]) -> float:
-        """Compute weighted sum of per-channel scores."""
+        """Compute weighted sum of per-channel scores.
+        """
         t = self.thresholds
         return (
             t.weight_sma * scores["sma"]
@@ -383,7 +375,8 @@ class ManeuverDetector:
         scores: dict[str, float],
         total_score: float,
     ) -> ManeuverEvent:
-        """Assemble a ManeuverEvent from a detection."""
+        """Assemble a ManeuverEvent from a detection.
+        """
         delta_sma = curr.semi_major_axis - prev.semi_major_axis
         delta_alt = curr.altitude - prev.altitude
         delta_inc = curr.inclination - prev.inclination
@@ -508,9 +501,7 @@ class ManeuverDetector:
         return merged
 
 
-# ── Batch utilities ──
-
-
+# Batch utils
 def detect_maneuvers_batch(
     tle_dict: dict[int, list[TLE]],
     thresholds: Optional[DetectionThresholds] = None,
@@ -556,6 +547,7 @@ def build_element_history(tles: list[TLE]) -> pd.DataFrame:
 
 
 def _angle_diff(a: float, b: float) -> float:
-    """Signed angular difference ``a - b``, wrapped to [-180, 180]."""
+    """Signed angular difference ``a - b``, wrapped to [-180, 180].
+    """
     d = (a - b) % 360
     return d - 360 if d > 180 else d

@@ -1,9 +1,10 @@
-"""Tests for SPECTRE."""
-
+#!/usr/bin/env python3
+"""SPECTRE unit test driver.
+TODO: Add scenario tests; for now this just ensures the test framework is set up correctly.
+"""
+import pytest
 import math
 from datetime import datetime, timedelta
-
-import pytest
 
 from spectre.tle_parser import TLE
 from spectre.detector import (
@@ -18,7 +19,6 @@ from spectre.detector import (
 # ═══════════════════════════════════════════════════════════════
 # TLE PARSER TESTS
 # ═══════════════════════════════════════════════════════════════
-
 ISS_LINE1 = "1 25544U 98067A   24001.50000000  .00016717  00000-0  10270-3 0  9003"
 ISS_LINE2 = "2 25544  51.6400 208.5000 0007417  68.0000 292.1000 15.49560000400000"
 
@@ -92,7 +92,6 @@ class TestTLEParser:
 # ═══════════════════════════════════════════════════════════════
 # MANEUVER DETECTION TESTS
 # ═══════════════════════════════════════════════════════════════
-
 def _make_tle(
     norad_id: int = 55001,
     epoch_dt: datetime = datetime(2024, 6, 1),

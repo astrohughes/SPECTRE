@@ -4,7 +4,7 @@
 
 Detect orbital maneuvers from publicly available TLE data — an Open-Source Intelligence (OSINT) tool for analyzing spacecraft constellation operations.
 
-**Author:** Kyle Hughes ([@astrohughes](https://github.com/astrohughes/SPECTRE)) — kyle.evan.hughes@gmail.com
+**Authors:** Kyle Hughes ([@astrohughes](https://github.com/astrohughes/SPECTRE)) — kyle.evan.hughes@gmail.com
 
 ---
 

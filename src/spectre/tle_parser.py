@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """TLE parsing and orbital element extraction.
 
 Parses standard NORAD Two-Line Element sets and computes derived orbital
@@ -8,11 +9,7 @@ References:
     - Kelso, T.S. "CelesTrak TLE Format Documentation"
       https://celestrak.org/columns/v04n03/
     - Vallado, D. (2013). Fundamentals of Astrodynamics and Applications.
-
-Author:
-    Kyle Hughes (@huqhesy) — kyle.evan.hughes@gmail.com
 """
-
 from __future__ import annotations
 
 import logging
@@ -23,8 +20,7 @@ from typing import Optional
 
 logger = logging.getLogger(__name__)
 
-# ── Physical constants (WGS84) ──
-
+# Physical constants (WGS84)
 MU_EARTH = 398600.4418
 """Earth gravitational parameter (km³/s²)."""
 
@@ -68,7 +64,6 @@ class TLE:
         period: Derived orbital period (seconds).
         raan_rate: J2 secular RAAN drift rate (deg/day).
     """
-
     # Identity
     name: Optional[str]
     norad_id: int
@@ -101,7 +96,8 @@ class TLE:
     raan_rate: float = field(init=False)
 
     def __post_init__(self) -> None:
-        """Compute derived orbital quantities from TLE fields."""
+        """Compute derived orbital quantities from TLE fields.
+        """
         n_rad_s = self.mean_motion * TWO_PI / SOLAR_DAY
         self.semi_major_axis = (MU_EARTH / n_rad_s**2) ** (1.0 / 3.0)
         self.altitude = self.semi_major_axis - R_EARTH
@@ -271,9 +267,7 @@ class TLE:
         }
 
 
-# ── Private helpers ──
-
-
+# Private helpers
 def _parse_implied_decimal(s: str) -> float:
     """Parse TLE implied-decimal notation into a float.
 

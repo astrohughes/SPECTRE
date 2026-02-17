@@ -1,5 +1,6 @@
+#!/usr/bin/env python3
 """
-Example: Detect Starlink maneuvers from Space-Track data.
+SPECTRE Example: Detect Starlink maneuvers from Space-Track data.
 
 Requires Space-Track credentials:
     export SPACETRACK_USER="your@email.com"
@@ -7,7 +8,6 @@ Requires Space-Track credentials:
 
 Register free at: https://www.space-track.org/auth/createAccount
 """
-
 import sys
 sys.path.insert(0, "src")
 
