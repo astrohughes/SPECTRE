@@ -2,9 +2,9 @@
 
 **S**pacecraft **P**ropulsive **E**vent **C**lassification & **T**racking from **R**epeated **E**lements
 
-Detect orbital maneuvers from publicly available TLE data — an OSINT tool for analyzing spacecraft constellation operations.
+Detect orbital maneuvers and anomalies from publicly available TLE data — an Open-Source Intelligence (OSINT) tool for analyzing spacecraft and constellation operations.
 
-**Author:** Kyle Hughes ([@huqhesy](https://github.com/huqhesy)) — kyle.evan.hughes@gmail.com
+**Author:** Kyle Hughes ([@](https://github.com/huqhesy)astrohughes) — kyle.evan.hughes@gmail.com
 
 ---
 
@@ -13,6 +13,7 @@ Detect orbital maneuvers from publicly available TLE data — an OSINT tool for 
 Every spacecraft maneuver leaves a fingerprint in Two-Line Element (TLE) data published by the U.S. Space Force via [Space-Track.org](https://www.space-track.org). SPECTRE detects these fingerprints automatically by analyzing discontinuities in orbital elements across consecutive TLE epochs.
 
 **Detection channels** (fused for robust classification):
+
 - Semi-major axis jumps → altitude change maneuvers
 - Mean motion residuals → deviation from expected drag trend
 - Inclination discontinuities → plane change maneuvers
@@ -21,6 +22,7 @@ Every spacecraft maneuver leaves a fingerprint in Two-Line Element (TLE) data pu
 - B* anomalies → drag coefficient discontinuities
 
 **What you can learn:**
+
 - Which spacecraft in a constellation are actively maneuvering
 - How often different operators perform station-keeping
 - Whether a constellation is raising orbits, deorbiting, or repositioning
@@ -134,12 +136,12 @@ thresholds = DetectionThresholds(
 
 ## Constellation Presets
 
-| Constellation | Altitude | Inclination | Characteristics |
-|---------------|----------|-------------|-----------------|
-| **Starlink** | 550 km | 53° | Frequent orbit raising after deploy, periodic drag makeup |
-| **OneWeb** | 1200 km | 87.9° | Minimal drag, occasional plane adjustments |
-| **Iridium NEXT** | 780 km | 86.4° | Stable, infrequent maneuvers |
-| **Planet Flock** | 475 km | 97.4° | High drag, short-lived, frequent corrections |
+| Constellation          | Altitude | Inclination | Characteristics                                           |
+| ---------------------- | -------- | ----------- | --------------------------------------------------------- |
+| **Starlink**     | 550 km   | 53°        | Frequent orbit raising after deploy, periodic drag makeup |
+| **OneWeb**       | 1200 km  | 87.9°      | Minimal drag, occasional plane adjustments                |
+| **Iridium NEXT** | 780 km   | 86.4°      | Stable, infrequent maneuvers                              |
+| **Planet Flock** | 475 km   | 97.4°      | High drag, short-lived, frequent corrections              |
 
 ## Limitations
 
