@@ -2,9 +2,9 @@
 
 **S**pacecraft **P**ropulsive **E**vent **C**lassification & **T**racking from **R**epeated **E**lements
 
-Detect orbital maneuvers and anomalies from publicly available TLE data — an Open-Source Intelligence (OSINT) tool for analyzing spacecraft and constellation operations.
+Detect orbital maneuvers from publicly available TLE data — an Open-Source Intelligence (OSINT) tool for analyzing spacecraft constellation operations.
 
-**Author:** Kyle Hughes ([@](https://github.com/huqhesy)astrohughes) — kyle.evan.hughes@gmail.com
+**Author:** Kyle Hughes ([@astrohughes](https://github.com/astrohughes/SPECTRE)) — kyle.evan.hughes@gmail.com
 
 ---
 
