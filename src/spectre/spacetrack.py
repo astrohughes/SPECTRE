@@ -14,7 +14,6 @@ Set credentials via environment variables::
 
 Or pass them directly to the ``SpaceTrackClient`` constructor.
 """
-
 from __future__ import annotations
 
 import os
