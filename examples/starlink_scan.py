@@ -7,19 +7,20 @@ Requires Space-Track credentials:
 
 Register free at: https://www.space-track.org/auth/createAccount
 """
+
 import sys
 sys.path.insert(0, "src")
 
 from datetime import datetime, timedelta
-from orbital_sentinel.spacetrack import SpaceTrackClient
-from orbital_sentinel.detector import (
+from spectre.spacetrack import SpaceTrackClient
+from spectre.detector import (
     ManeuverDetector,
     DetectionThresholds,
     detect_maneuvers_batch,
     build_element_history,
 )
-from orbital_sentinel.constellations import STARLINK
-from orbital_sentinel.viz import (
+from spectre.constellations import STARLINK
+from spectre.viz import (
     plot_element_history,
     plot_maneuver_timeline,
     plot_constellation_activity,
@@ -29,7 +30,7 @@ from orbital_sentinel.viz import (
 
 def main():
     print("=" * 65)
-    print("  ORBITAL SENTINEL — Starlink Maneuver Detection")
+    print("  SPECTRE — Starlink Maneuver Detection")
     print("=" * 65)
 
     client = SpaceTrackClient()

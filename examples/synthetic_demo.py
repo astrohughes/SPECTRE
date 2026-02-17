@@ -10,8 +10,8 @@ import sys
 sys.path.insert(0, "src")
 
 from datetime import datetime, timedelta
-from orbital_sentinel.tle_parser import TLE
-from orbital_sentinel.detector import (
+from spectre.tle_parser import TLE
+from spectre.detector import (
     ManeuverDetector,
     DetectionThresholds,
     build_element_history,
@@ -53,7 +53,7 @@ def make_synthetic_tle(
 
 def main():
     print("=" * 65)
-    print("  ORBITAL SENTINEL — Synthetic Maneuver Detection Demo")
+    print("  SPECTRE — Synthetic Maneuver Detection Demo")
     print("=" * 65)
 
     base = datetime(2024, 6, 1)
@@ -153,7 +153,7 @@ def main():
 
     # ── Generate plots if matplotlib is available ──
     try:
-        from orbital_sentinel.viz import plot_element_history, plot_maneuver_timeline
+        from spectre.viz import plot_element_history, plot_maneuver_timeline
         import matplotlib
         matplotlib.use("Agg")  # Non-interactive backend
 

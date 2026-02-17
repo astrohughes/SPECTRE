@@ -3,17 +3,38 @@ requires = ["setuptools>=68", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "orbital-sentinel"
+name = "spectre"
 version = "0.1.0"
-description = "Detect satellite maneuvers from TLE history — OSINT tool for constellation operations analysis"
+description = (
+    "SPECTRE — Spacecraft Propulsive Event Classification "
+    "& Tracking from Repeated Elements"
+)
 readme = "README.md"
 license = { text = "MIT" }
 requires-python = ">=3.10"
-keywords = ["satellite", "TLE", "maneuver-detection", "OSINT", "space", "astrodynamics"]
+authors = [
+    { name = "Kyle Hughes", email = "kyle.evan.hughes@gmail.com" },
+]
+keywords = [
+    "satellite",
+    "spacecraft",
+    "TLE",
+    "maneuver-detection",
+    "OSINT",
+    "space",
+    "astrodynamics",
+    "orbit",
+]
 classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
     "Topic :: Scientific/Engineering :: Astronomy",
     "Topic :: Scientific/Engineering :: Physics",
-    "Topic :: Security",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
 ]
 dependencies = [
     "numpy>=1.24",
@@ -31,10 +52,30 @@ dev = [
     "jupyter",
     "plotly>=5.15",
     "seaborn>=0.12",
+    "ruff",
+    "mypy",
 ]
 
+[project.urls]
+Homepage = "https://github.com/huqhesy/spectre"
+Repository = "https://github.com/huqhesy/spectre"
+Issues = "https://github.com/huqhesy/spectre/issues"
+
 [project.scripts]
-orbital-sentinel = "orbital_sentinel.cli:main"
+spectre = "spectre.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.ruff]
+target-version = "py310"
+line-length = 88
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "N", "D", "UP"]
+ignore = ["D203", "D213"]
+
+[tool.mypy]
+python_version = "3.10"
+warn_return_any = true
+warn_unused_configs = true
