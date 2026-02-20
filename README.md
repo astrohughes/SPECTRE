@@ -34,7 +34,7 @@ Every spacecraft maneuver leaves a fingerprint in Two-Line Element (TLE) data pu
 ### Install
 
 ```bash
-git clone https://github.com/huqhesy/spectre.git
+git clone https://github.com/astrohughes/spectre.git
 cd spectre
 pip install -e ".[dev]"
 ```
