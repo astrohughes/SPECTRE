@@ -1,4 +1,6 @@
-"""SPECTRE — Spacecraft Propulsive Event Classification & Tracking from Repeated Elements.
+#!/usr/bin/env python3
+"""
+SPECTRE — Spacecraft Propulsive Event Classification & Tracking from Repeated Elements.
 
 Detect orbital maneuvers from publicly available Two-Line Element (TLE) data.
 Built for OSINT analysis of spacecraft constellation operations.
@@ -24,7 +26,6 @@ Example:
     >>> for event in events:
     ...     print(event.summary())
 """
-
 __version__ = "0.1.0"
 __author__ = "Kyle Hughes"
 __email__ = "kyle.evan.hughes@gmail.com"

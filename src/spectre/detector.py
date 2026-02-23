@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-"""Core maneuver detection engine.
+"""
+Core engine/driver for maneuver detection from TLE data.
 
 Detects orbital maneuvers by analyzing discontinuities in TLE-derived
 orbital elements across consecutive epochs. Uses multiple independent
@@ -55,7 +56,7 @@ class DetectionThresholds:
     Default values are tuned for LEO constellations (Starlink, OneWeb,
     Iridium). Adjust for different orbit regimes or spacecraft types.
 
-    TODO: Make WAY more configurable.
+    TODO: Make WAY more configurable (e.g. yaml)
 
     Attributes:
         sma_jump_km: SMA discontinuity trigger (km).
@@ -224,7 +225,6 @@ class ManeuverEvent:
         )
 
 
-# Detection engine
 class ManeuverDetector:
     """Core maneuver detection engine.
 
@@ -452,7 +452,8 @@ class ManeuverDetector:
         delta_ecc: float,
         scores: dict[str, float],
     ) -> ManeuverType:
-        """Classify the maneuver type based on dominant detection channels."""
+        """Classify the maneuver type based on dominant detection channels.
+        """
         if abs(delta_alt) > 50:
             return (
                 ManeuverType.ORBIT_RAISE
@@ -483,7 +484,8 @@ class ManeuverDetector:
         events: list[ManeuverEvent],
         window_hours: float = 6.0,
     ) -> list[ManeuverEvent]:
-        """Merge detections within a time window, keeping highest-scoring."""
+        """Merge detections within a time window, keeping highest-scoring.
+        """
         if not events:
             return events
 

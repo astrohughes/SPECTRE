@@ -150,6 +150,10 @@ thresholds = DetectionThresholds(
 - **Drag modeling** — The exponential atmosphere proxy is approximate. Solar activity variations can mimic small maneuvers.
 - **Element type mixing** — TLEs use Brouwer mean elements; direct comparison across epochs assumes consistent fitting.
 
+## TODO Items to discuss/address:
+
+* [ ] FILL
+
 ## See Also
 
 - [SCARAB](https://github.com/huqhesy/scarab) — Companion project for constellation station-keeping planning (Rust + Python)

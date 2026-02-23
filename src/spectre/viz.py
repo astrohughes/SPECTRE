@@ -1,9 +1,16 @@
 #!/usr/bin/env python3
-"""Visualization tools for SPECTRE maneuver detection results.
+"""
+Visualization tools for SPECTRE maneuver detection results.
 TODO: Make this WAY better
+* Include seaborn?
+* HTML etc. output with plotly/dash/streamlit/bokeh?
+* Interactive Jupyter widgets?
+* Cesium, etc. 3D orbit visualization?
 
-Generates publication-quality plots of orbital element evolution with
-detected maneuvers highlighted. Supports both interactive analysis
+
+TODO: Update
+Generates plots of orbital element evolution with detected
+maneuvers highlighted. Supports both interactive analysis
 (Jupyter) and batch report generation (saved PNGs).
 """
 from __future__ import annotations
@@ -19,6 +26,7 @@ import matplotlib.dates as mdates
 from matplotlib.patches import FancyBboxPatch
 
 
+# TODO: Maybe modify style to be more "spacey" and less default matplotlib? Seaborn or custom style?
 # Use a clean style
 plt.rcParams.update({
     "figure.facecolor": "white",

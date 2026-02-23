@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-"""SPECTRE command-line interface.
+"""
+SPECTRE command-line interface.
 
 Usage::
 
@@ -38,7 +39,8 @@ console = Console()
 @click.group()
 @click.option("--verbose", "-v", is_flag=True, help="Enable debug logging")
 def main(verbose: bool):
-    """SPECTRE — Spacecraft Propulsive Event Classification & Tracking from Repeated Elements."""
+    """SPECTRE — Spacecraft Propulsive Event Classification & Tracking from Repeated Elements.
+    """
     level = logging.DEBUG if verbose else logging.WARNING
     logging.basicConfig(level=level, format="%(name)s — %(message)s")
 
@@ -58,7 +60,8 @@ def scan(
     threshold: str,
     output: str | None,
 ):
-    """Scan a single spacecraft for maneuvers."""
+    """Scan a single spacecraft for maneuvers.
+    """
     thresholds = _get_thresholds(threshold)
 
     if filepath:
@@ -112,7 +115,8 @@ def constellation(
     output: str | None,
     report_dir: str | None,
 ):
-    """Scan an entire constellation for maneuvers."""
+    """Scan an entire constellation for maneuvers.
+    """
     thresholds = _get_thresholds(threshold)
 
     # Get NORAD IDs
@@ -169,7 +173,8 @@ def constellation(
 @main.command()
 @click.argument("filepath", type=click.Path(exists=True))
 def analyze(filepath: str):
-    """Analyze a previously saved detections CSV."""
+    """Analyze a previously saved detections CSV.
+    """
     import pandas as pd
 
     df = pd.read_csv(filepath, parse_dates=["epoch_before", "epoch_after"])
@@ -178,6 +183,8 @@ def analyze(filepath: str):
 
 
 def _get_thresholds(name: str) -> DetectionThresholds:
+    """Return preset detection thresholds for known constellations.
+    """
     presets = {
         "default": DetectionThresholds(),
         "starlink": DetectionThresholds.for_starlink(),
@@ -188,7 +195,8 @@ def _get_thresholds(name: str) -> DetectionThresholds:
 
 
 def _display_results(tles: list[TLE], events: list[ManeuverEvent]):
-    """Display scan results with rich formatting."""
+    """Display scan results with rich formatting.
+    """
     tle = tles[0]
     console.print(
         Panel(
@@ -231,7 +239,8 @@ def _display_results(tles: list[TLE], events: list[ManeuverEvent]):
 
 
 def _display_maneuver_table(df):
-    """Display a DataFrame of maneuver detections as a rich table."""
+    """Display a DataFrame of maneuver detections as a rich table.
+    """
     table = Table(box=box.SIMPLE_HEAVY, show_lines=True)
     table.add_column("Date", style="cyan")
     table.add_column("NORAD", justify="right")

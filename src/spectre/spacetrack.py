@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-"""Space-Track.org API client for fetching TLE history.
+"""
+Space-Track.org API client for fetching TLE history.
 
 Provides authenticated access to Space-Track's REST API for downloading
 historical TLE data. Includes disk-based caching and rate limiting to
@@ -14,7 +15,6 @@ Set credentials via environment variables::
 
 Or pass them directly to the ``SpaceTrackClient`` constructor.
 """
-
 from __future__ import annotations
 
 import os

@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """
 Known spacecraft constellation metadata and NORAD ID presets.
-TODO: Update, make configurable - FastAPI or OpenAPI spec
+
+TODO: Update/yaml config - FastAPI or OpenAPI spec
 with periodic Space-Track queries to keep current, TBD.
 
 Provides pre-configured detection thresholds and example NORAD catalog

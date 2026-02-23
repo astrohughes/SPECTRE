@@ -1,14 +1,15 @@
 #!/usr/bin/env python3
-"""TLE parsing and orbital element extraction.
+"""
+Two-Line Element (TLE) parsing and orbital element extraction.
 
 Parses standard NORAD Two-Line Element sets and computes derived orbital
 quantities needed for maneuver detection: semi-major axis, altitude,
 orbital period, inclination, RAAN secular drift rate, and more.
 
 References:
+    - Vallado, D. (2013). Fundamentals of Astrodynamics and Applications.
     - Kelso, T.S. "CelesTrak TLE Format Documentation"
       https://celestrak.org/columns/v04n03/
-    - Vallado, D. (2013). Fundamentals of Astrodynamics and Applications.
 """
 from __future__ import annotations
 
@@ -20,21 +21,21 @@ from typing import Optional
 
 logger = logging.getLogger(__name__)
 
-# Physical constants (WGS84)
+### Physical constants (WGS84)
+# Earth gravitational parameter (km³/s²).
 MU_EARTH = 398600.4418
-"""Earth gravitational parameter (km³/s²)."""
 
+# Earth equatorial radius (km).
 R_EARTH = 6378.137
-"""Earth equatorial radius (km)."""
 
+# Earth J2 zonal harmonic coefficient.
 J2 = 1.08262668e-3
-"""Earth J2 zonal harmonic coefficient."""
 
+# Seconds in a solar day.
 SOLAR_DAY = 86400.0
-"""Seconds in a solar day."""
 
+# 2π constant.
 TWO_PI = 2.0 * math.pi
-"""2π constant."""
 
 
 @dataclass(slots=True)

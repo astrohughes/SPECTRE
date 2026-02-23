@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
-"""SPECTRE unit test driver.
+"""
+Unit test driver for SPECTRE: Spacecraft Propulsive Event Classification & Tracking from Repeated Elements
+
 TODO: Add scenario tests; for now this just ensures the test framework is set up correctly.
 """
 import pytest
@@ -16,9 +18,7 @@ from spectre.detector import (
 )
 
 
-# ═══════════════════════════════════════════════════════════════
 # TLE PARSER TESTS
-# ═══════════════════════════════════════════════════════════════
 ISS_LINE1 = "1 25544U 98067A   24001.50000000  .00016717  00000-0  10270-3 0  9003"
 ISS_LINE2 = "2 25544  51.6400 208.5000 0007417  68.0000 292.1000 15.49560000400000"
 
