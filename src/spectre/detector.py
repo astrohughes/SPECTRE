@@ -16,6 +16,11 @@ Detection channels:
 
 Each channel produces a suspicion score in [0, 1]. Scores are fused via
 configurable weights to produce a final maneuver probability.
+
+TODOs
+* why not just use numpy for all of the sign handling/verification
+* _estimate_delta_v needs to be way more configurable
+* need better documentation on usage of _classify
 """
 from __future__ import annotations
 

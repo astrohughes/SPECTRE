@@ -9,17 +9,17 @@ Author:
     Kyle Hughes (@astrohughes) — kyle.evan.hughes@gmail.com
 
 Modules:
-    tle_parser:     Parse and extract orbital elements from TLE sets.
-    detector:       Core maneuver detection engine with multi-channel fusion.
-    spacetrack:     Space-Track.org API client with caching and rate limiting.
-    constellations: Presets and metadata for known spacecraft constellations.
-    viz:            Visualization tools for element history and detections.
-    cli:            Command-line interface.
+    tle_parser:       Parse and extract orbital elements from TLE sets.
+    detector:         Core maneuver detection engine with multi-channel fusion.
+    spacetrack:       Space-Track.org API client with caching and rate limiting.
+    constellations:   Presets and metadata for known spacecraft constellations.
+    viz:              Visualization tools for element history and detections.
+    cli:              Command-line interface.
 
+    
 Example:
     >>> from spectre.tle_parser import TLE
     >>> from spectre.detector import ManeuverDetector
-    >>>
     >>> tles = TLE.parse_batch(open("catalog.tle").read())
     >>> detector = ManeuverDetector()
     >>> events = detector.detect(tles)

@@ -14,6 +14,8 @@ Set credentials via environment variables::
     export SPACETRACK_PASS="your_password"
 
 Or pass them directly to the ``SpaceTrackClient`` constructor.
+
+* TODO: Consider pulling from other sources
 """
 from __future__ import annotations
 

@@ -2,8 +2,7 @@
 """
 SPECTRE command-line interface.
 
-Usage::
-
+Usage:
     spectre scan --norad-id 25544 --days 90
     spectre scan --file data/starlink_tles.txt
     spectre constellation --name starlink --days 30
